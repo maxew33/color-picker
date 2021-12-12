@@ -1,0 +1,232 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --saturation: 100%;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    background: radial-gradient(circle at center, white, hsl(0, 0%, 33%));
+}
+
+h1{
+    height: 4vmin;
+}
+ .saturation-container, .result{
+    height: 8vmin;
+}
+
+.saturation-container{
+    display: flex;
+    align-items: center;
+}
+
+.hsl-wheel {
+    position: relative;
+    height: 80vmin;
+    width: 80vmin;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    .lvl {
+        position: absolute;
+        border-radius: 50%;
+    }
+
+    .color {
+        cursor: pointer;
+        position: absolute;
+        border-radius: 50%;
+        height: inherit;
+        width: inherit;
+        clip-path: polygon(63.4% 0, 36.6% 0, 50% 50%);
+    }
+
+    @for $i from 1 through 12 {
+        .color#{$i} {
+            transform: rotate(1deg * (30 * ($i - 1)));
+        }
+    }
+
+    @for $i from 1 through 10 {
+        .lvl#{$i} {
+            height: 80vmin - (8vmin * ($i - 1));
+            width: 80vmin - (8vmin * ($i - 1));
+            $lum: (90% - ($i - 1) * 10%);
+
+            @for $j from 1 through 12 {
+                .color#{$j} {
+                    background: hsl(1deg * (30 * ($j - 1)), var(--saturation), $lum);
+                }
+            }
+        }
+    }
+}
+
+.result {
+    max-width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .view-css,
+    .copy-css {
+        font-size: 1.5rem;
+        background: #ffffff33;
+        padding: 15px 0;
+        border: 2px solid black;
+        border-radius: 5px;
+    }
+
+    .view-css {
+        margin-right: 25px;
+        padding: 15px 0.5vw;
+        max-width: 80vw;
+        text-align: center;
+        resize: none;
+    }
+
+    .copy-css {
+        width: 6.5rem;
+        text-align: center;
+        color: black;
+        cursor: pointer;
+        font-weight: bolder;
+        transition: transform 0.1s ease-in, background 0.1s ease-in, color 0.1s ease-in;
+
+        &:hover {
+            transform: scale(1.1);
+            background: white;
+            color: grey;
+        }
+    }
+}
+
+input[type="range"] {
+    -webkit-appearance: none; /*nécessaire pour Chrome */
+    padding: 0; /* nécessaire pour IE */
+    font: inherit; /* même rendu suivant font document */
+    outline: none;
+    cursor: pointer;
+    border-radius: 10px;
+    height: 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; /* également nécessaire sur le curseur */
+    width: 1em;
+    height: 20px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    position: relative;
+    top: -50%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background: white;
+    border-radius: 10px;
+    height: 100%;
+}
+
+input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none; /* également nécessaire sur le curseur */
+    width: 1em;
+    height: 20px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    position: relative;
+    top: -50%;
+}
+
+input[type="range"]::-moz-range-track {
+    background: white;
+    border-radius: 10px;
+    height: 100%;
+}
+
+input[type="range"]::-ms-thumb {
+    -webkit-appearance: none; /* également nécessaire sur le curseur */
+    width: 1em;
+    height: 20px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    position: relative;
+    top: -50%;
+}
+
+input[type="range"]::-ms-track {
+    background: white;
+    border-radius: 10px;
+    height: 100%;
+}
+
+/* signature */
+
+.link {
+    position: fixed;
+    z-index: 10;
+    left: calc(2.5vmin - 0.75rem);
+    bottom: calc(2.5vmin - 0.75rem);
+    font-size: 1.5rem;
+    font-family: arial, sans-serif;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    .my-name {
+        position: relative;
+    }
+
+    .before,
+    .after {
+        overflow: hidden;
+        width: 0px;
+        transition: width 0.5s;
+        transform-origin: right;
+    }
+
+    .before-text {
+        display: inline-block;
+        width: auto;
+        text-align: right;
+    }
+
+    .after-text {
+        display: flex;
+        align-items: center;
+        width: auto;
+        height: 3rem;
+        transform-origin: top center;
+    }
+
+    &:hover .before {
+        width: 2.5rem;
+    }
+
+    &:hover .after {
+        width: 4rem;
+    }
+
+    &:hover .spin {
+        display: inline-block;
+        transition: 0.5s transform 0.5s ease-in-out;
+        transform: rotate(360deg);
+    }
+}
